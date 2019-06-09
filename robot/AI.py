@@ -49,6 +49,9 @@ class TulingRobot(AbstractRobot):
         Arguments:
         texts -- user input, typically speech, to be parsed by a module
         """
+
+        logger.info('AI chat texts：{}'.format(texts))
+
         msg = ''.join(texts)
         try:
             url = "http://www.tuling123.com/openapi/api"
@@ -73,7 +76,7 @@ class TulingRobot(AbstractRobot):
             return result
         except Exception:
             logger.critical("Tuling robot failed to responsed for %r",
-                                  msg, exc_info=True)            
+                                  msg, exc_info=True)
             return "抱歉, 我的大脑短路了，请稍后再试试."
 
 
@@ -85,14 +88,14 @@ class Emotibot(AbstractRobot):
         """
         Emotibot机器人
         """
-        super(self.__class__, self).__init__()        
+        super(self.__class__, self).__init__()
         self.appid, self.location, self.more = appid, location, more
 
     @classmethod
     def get_config(self):
         appid = config.get('/emotibot/appid', '')
         location = config.get('location', '深圳')
-        more = config.get('active_mode', False)        
+        more = config.get('active_mode', False)
         return {
             'appid': appid,
             'location': location,
@@ -132,7 +135,7 @@ class Emotibot(AbstractRobot):
                 result = '\n'.join(responds)
             else:
                 result = "抱歉, 我的大脑短路了，请稍后再试试."
-            logger.info('{} 回答：{}'.format(self.SLUG, result))            
+            logger.info('{} 回答：{}'.format(self.SLUG, result))
             return result
         except Exception:
             logger.critical("Emotibot failed to responsed for %r",
@@ -157,7 +160,7 @@ def get_robot_by_slug(slug):
     else:
         if len(selected_robots) > 1:
             logger.warning("WARNING: Multiple robots found for slug '%s'. " +
-                  "This is most certainly a bug." % slug)        
+                  "This is most certainly a bug." % slug)
         robot = selected_robots[0]
         logger.info("使用 {} 对话机器人".format(robot.SLUG))
         return robot.get_instance()
