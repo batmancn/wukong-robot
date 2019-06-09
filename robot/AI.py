@@ -109,6 +109,9 @@ class Emotibot(AbstractRobot):
         Arguments:
         texts -- user input, typically speech, to be parsed by a module
         """
+
+        logger.info('AI emotibot chat texts：{}'.format(texts))
+
         msg = ''.join(texts)
         try:
             url = "http://idc.emotibot.com/api/ApiKey/openapi.php"
